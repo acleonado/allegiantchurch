@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block active_give %} active {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %} 
+  <section class="hero-wrap hero-wrap-2"style="background-image: url('{% static "website/images/header.jpg" %}');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+          <h1 class="mb-2 bread">Give</h1>
+          <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Give <i class="ion-ios-arrow-forward"></i></span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="ftco-section contact-section">
+    <div class="container">
+      <div class="row d-flex mb-5 contact-info">
+        <div class="col-md-12 mb-4">
+          
+          {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+          {% endif %}
+          
+          <h1 class="mb-4">Luke 6:38</h1>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-md-12">
+          "If you give, you will get! Your gift will return to you in full and overflowing measure, pressed down, 
+          shaken together to make room for more, and running over. Whatever measure you use to give– large 
+          or small– will be used to measure what is given back to you.""
+        </div>
+      </div>
+      
+      <form action='{% url "charge" %}' method='POST' id="payment-form" class="col-md-6">
+        {% csrf_token %}
+        <div class="form-group">
+          <label>Amount</label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input type="number" min="1" class="form-control" name="amount">
+            <div class="input-group-append">
+              <span class="input-group-text">.00</span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <select class="custom-select" name="description">
+            <option value="Tithes" selected>Tithes</option>
+            <option value="Donation">Donation</option>
+          </select>
+        </div>
+        <hr>
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text"  name="name" class="form-control">
+        </div>
+        
+        <div class="form-group">
+           <label>Email Address</label>
+          <input type="email"  name="email" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="card-element">
+              Credit or debit card
+          </label>
+          <div id="card-element">
+              <!-- A Stripe Element will be inserted here. -->
+          </div>
+      
+          <!-- Used to display form errors. -->
+          <div id="card-errors" role="alert"></div>
+        </div>
+        
+        <div class="form-group">
+          <input type="submit" value="Give Now" class="btn btn-info py-3 px-5">
+        </div>
+      </form>
+    </div>
+  </section>
+  
+  
+{% endblock %}

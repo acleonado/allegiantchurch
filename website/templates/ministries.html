@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block active_ministries %} active {% endblock %}
+
+{% block content %} 
+  <section class="hero-wrap hero-wrap-2"style="background-image: url('{% static "website/images/header.jpg" %}');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+          <h1 class="mb-2 bread">Ministries</h1>
+          <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Ministries <i class="ion-ios-arrow-forward"></i></span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <section class="ftco-section">
+    <div class="container">
+      <div class="row">
+          {% if not object_list %}
+            <div class="col-md-12">
+              <p class="text-danger">No upcoming ministries at this time</p>
+              <hr>
+            </div>
+          {% else %}
+            {% for min in object_list %}
+            <div class="col-md-4">
+                <div class="instagram sermon-wrap sermon-wrap-2 mb-4 ftco-animate">
+                    <a href="{{ min.img.url }}" class="insta-img img image-popup"style="background-image: url({{ min.img.url }});">
+                        <div class="icon d-flex justify-content-center">
+                            <span class="align-self-center"> 
+                                <p style="color:black">{{ min.title }}</p>
+                            </span>
+                        </div>
+                    </a>
+                    <div class="text p-4 bg-light text-center">
+                        <h2 class="mb-3"><a href="sermon.html">Leader: {{ min.leader }}</a></h2>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+          {% endif %}
+      </div> <!-- .col-md-8 -->
+      {% if is_paginated %}
+
+      <div class="row mt-5">
+        <div class="col text-center">
+          <div class="block-27">
+            <ul>
+
+        {% if page_obj.has_previous %}
+            <li><a href="?page=1">&lt;&lt;</a></li>
+            <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li class="active"><a href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'+3' %}
+                <li><a href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+            <li><a href="?page={{ page_obj.paginator.num_pages }">&gt;&gt;</a></li>
+        {% endif %}
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block active_contact %} active {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %} 
+  <section class="hero-wrap hero-wrap-2"style="background-image: url('{% static "website/images/header.jpg" %}');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+          <h1 class="mb-2 bread">Contact Us</h1>
+          <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Contact <i class="ion-ios-arrow-forward"></i></span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="ftco-section contact-section">
+    <div class="container">
+      <div class="row d-flex mb-5 contact-info">
+        <div class="col-md-12 mb-4">
+          {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+          {% endif %}
+          <h2 class="h3">Contact Information</h2>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-md-3">
+          <p><span>Address:</span> 8155 Watt Ave Antelope, California</p>
+        </div>
+        <div class="col-md-3">
+          <p><span>Phone:</span><br><a href="tel://9167410557">(916) 741-0557</a></p>
+        </div>
+        <div class="col-md-3">
+          <p><span>Email:</span><br><a href="mailto:theallegiantchurch@gmail.com">theallegiantchurch@gmail.com</a></p>
+        </div>
+        <div class="col-md-3">
+          <p><span>Facebook:</span><br><a href="https://www.facebook.com/allegiant.church/">The Allegiant Church</a></p>
+        </div>
+      </div>
+      <div class="row block-9">
+        <div class="col-lg-6 order-md-last d-flex">
+          <form method='POST' class="bg-light p-5 contact-form">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="form-group">
+              <input type="submit" value="Send Message" class="btn btn-info py-3 px-5">
+            </div>
+          </form>
+        
+        </div>
+        <div class="col-lg-6 d-flex">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d22712.047989004925!2d-121.39612464127985!3d38.716910345783724!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x31d8bdc194de3746!2sThe%20Pointe%20Church!5e0!3m2!1sen!2sus!4v1587412046167!5m2!1sen!2sus" 
+            width="550" frameborder="" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

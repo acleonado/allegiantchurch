@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block active_events %} active {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %} 
+  <section class="hero-wrap hero-wrap-2"style="background-image: url({{ event.img.url }});" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+          <p class="breadcrumbs">
+            <span class="mr-2">
+              <a href="{% url 'events' %}">Events 
+                <i class="ion-ios-arrow-forward"></i>
+              </a>
+            </span> 
+              <span>{{ event.title }} 
+                <i class="ion-ios-arrow-forward"></i>
+              </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ftco-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="text pl-md-5">
+            <div class="meta">
+              <p>
+                <span><i class="icon-calendar mr-2"></i> {{ event.date }}, {{ event.time }}</span>
+                <span><i class="icon-my_location mr-2"></i> <a href="#">{{ event.location }}</a></span>
+                <span><i class="icon-location_city mr-2"></i> {{ event.address }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                  {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          <h3 class="mb-4">{{ event.title }}</h3>
+          <p>{{ event.desc | safe }}</p>
+          <hr>
+          <p><button class="btn btn-primary btn-block" data-toggle="modal" data-target="#joinModal" data-id="{{ event.id }}" data-title="{{ event.title }}">Join</button></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal fade" id="joinModal" tabindex="-1" role="dialog" aria-labelledby="joinModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="joinModalLabel">New message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST">
+              {% csrf_token %}
+              {{ form|crispy }}
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Send message</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
