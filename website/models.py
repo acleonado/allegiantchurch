@@ -8,6 +8,7 @@ from phone_field import PhoneField
 from django.urls import reverse, reverse_lazy
 
 
+
 @property
 def is_past_due(self):
     return date.today() > self.date
@@ -44,7 +45,7 @@ class JoinEvent(models.Model):
     f_name = models.CharField(max_length = 50)
     l_name = models.CharField(max_length = 50)
     email = models.EmailField()
-    mobile = PhoneField()
+    mobile = PhoneField(max_length = 10, E164_only=False)
 
     def __str__(self):
         return self.f_name + ' ' + self.l_name + ' | ' + str(self.event_id)
